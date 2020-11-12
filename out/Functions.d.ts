@@ -1,0 +1,10 @@
+import { ObservableArray } from './ObservableArray';
+import { ObservableMap } from './ObservableMap';
+import { ObservableValue } from './ObservableValue';
+import { Observable } from './Observable';
+export declare function createObservable(x: string): ObservableValue<string>;
+export declare function createObservable(x: number): ObservableValue<number>;
+export declare function createObservable(x: boolean): ObservableValue<boolean>;
+export declare function createObservable<T extends Array<V>, V>(x: Array<V>): ObservableArray<V>;
+export declare function createObservable<T extends Map<K, V>, K, V>(x: Map<K, V>): ObservableMap<K, V>;
+export declare function checkIfObservable(o: any): o is Observable;
