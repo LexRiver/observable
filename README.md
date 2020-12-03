@@ -4,7 +4,7 @@ This package provides observable data structures:
 * [ObservableValue](#observableValueT)
 * [ObservableArray](#observableArrayT)
 * [ObservableMap](#observableMapKV)
-* ObservableLocalStorageVariable
+* [ObservableLocalStorageVariable](#observableLocalStorageVariableT)
 
 ## Install
 
@@ -123,7 +123,7 @@ let result = myStringO.get()
 
 
 
-## `ObservableArray<T>`
+# `ObservableArray<T>`
 
 __Example of usage__
 
@@ -538,7 +538,7 @@ This method triggers `.eventOnChange`
 <br/>
 <br/>
 
-## `ObservableMap<K,V>`
+# `ObservableMap<K,V>`
 
 __Example of usage__
 
@@ -758,7 +758,7 @@ console.log('size of map is ', myMapO.size)
 <br/>
 <br/>
 
-## ObservableLocalStorageVariable<T>
+# ObservableLocalStorageVariable<T>
 
 ObservableLocalStorageVariable allows to track changes on value in localStorage in browser.
 
