@@ -43,11 +43,20 @@ myNumberO === 100 // WRONG!
 myNumberO.get() === 100 // correct
 ```
 
+
+
+
+
+
+<br/>
+<br/>
+<br/>
+<br/>
 <br/>
 <br/>
 
 /# ObservableValue
-## `ObservableValue<T>` 
+# `ObservableValue<T>` 
 
 Use this class to create observable value.
 Value can be of any type, but the `eventOnChange` will be triggered only on `.set(..)` method. So for array and map use `ObservableArray<T>` and `ObservableMap<K,V>`.
@@ -94,10 +103,6 @@ Get current value.
 ```typescript
 let result = myStringO.get()
 ```
-<br/>
-
-
-
 
 
 
@@ -120,7 +125,9 @@ let result = myStringO.get()
 <br/>
 <br/>
 <br/>
-
+<br/>
+<br/>
+<br/>
 
 
 # `ObservableArray<T>`
@@ -506,34 +513,35 @@ Delete element by index.
 myArrayO.removeItemByIndex(2)
 ```
 This method triggers `.eventOnChange`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <br/>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<br/>
+<br/>
 <br/>
 <br/>
 <br/>
@@ -727,7 +735,7 @@ for(let key of myMapO.keys()){
 The values() method returns a new Iterator object that contains the values for each element in the Map object in insertion order.
 
 ```typescript
-for(let value of myMapO.value()){
+for(let value of myMapO.values()){
     console.log('value=', value)
 }
 ```
@@ -752,15 +760,26 @@ Get size of map.
 console.log('size of map is ', myMapO.size)
 ```
 
+
+
+
+
+
+
+
+
+
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
 <br/>
 
 
-<br/>
-<br/>
+# `ObservableLocalStorageVariable<T>`
 
-# ObservableLocalStorageVariable<T>
-
-ObservableLocalStorageVariable allows to track changes on value in localStorage in browser.
+`ObservableLocalStorageVariable` allows to track changes for value in localStorage in browser.
 
 
 ```typescript
