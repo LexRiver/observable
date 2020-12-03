@@ -1,9 +1,9 @@
 # Observable
 
 This package provides observable data structures: 
-* ObservableValue
-* ObservableArray
-* ObservableMap
+* [ObservableValue](#observableValueT)
+* [ObservableArray](#observableArrayT)
+* [ObservableMap](#observableMapKV)
 * ObservableLocalStorageVariable
 
 ## Install
@@ -46,7 +46,8 @@ myNumberO.get() === 100 // correct
 <br/>
 <br/>
 
-## `ObservableValue<T>`
+/# ObservableValue
+## `ObservableValue<T>` 
 
 Use this class to create observable value.
 Value can be of any type, but the `eventOnChange` will be triggered only on `.set(..)` method. So for array and map use `ObservableArray<T>` and `ObservableMap<K,V>`.
@@ -754,5 +755,59 @@ console.log('size of map is ', myMapO.size)
 <br/>
 
 
+<br/>
+<br/>
+
+## ObservableLocalStorageVariable<T>
+
+ObservableLocalStorageVariable allows to track changes on value in localStorage in browser.
+
+
+```typescript
+const myStringO = new ObservableLocalStorageValue<string>({
+    localStorageKey: 'my-key-in-local-storage',
+    defaultValueIfNotInLocalStorage: 'default text' // optional
+})
+```
+<br/>
+
+### `eventOnChange:TypeEvent<(newValue:T, prevValue?:T)=>void>`
+
+This event will be triggered every time the value changes.
+
+```typescript
+myStringO.eventOnChange.subscribe((newValue, prevValue) => {
+    console.log('the value was changed from ', prveValue, 'to', newValue)
+})
+```
+
+For more details on TypeEvent please visit <https://github.com/LexRiver/type-event>
+
+<br/>
+
+### `set(value:T)`
+Set new value.
+```typescript
+myStringO.set('new value')
+```
+This method triggers `.eventOnChange` event
+
+<br/>
+
+### `setByPrevious(setter:(oldValue:T)=>T)`
+Set new value by previous value.
+```typescript
+myStringO.set((previous) => previous+'!')
+```
+This method will also trigger `.eventOnChange`.
+
+<br/>
+
+### `get()`
+Get current value. 
+```typescript
+let result = myStringO.get()
+```
+<br/>
 
 
