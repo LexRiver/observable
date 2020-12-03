@@ -1,7 +1,7 @@
 {
     "sideEffects": false,
     "name": "@lexriver/observable",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "",
     "main": "out/index.js",
     "types": "out/index.d.ts",

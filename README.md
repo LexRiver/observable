@@ -55,7 +55,6 @@ myNumberO.get() === 100 // correct
 <br/>
 <br/>
 
-/# ObservableValue
 # `ObservableValue<T>` 
 
 Use this class to create observable value.
