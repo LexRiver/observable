@@ -776,13 +776,13 @@ console.log('size of map is ', myMapO.size)
 <br/>
 
 
-# `ObservableLocalStorageVariable<T>`
+# `ObservableLocalStorageVariable`
 
 `ObservableLocalStorageVariable` allows to track changes for value in localStorage in browser.
 
 
 ```typescript
-const myStringO = new ObservableLocalStorageValue<string>({
+const myStringO = new ObservableLocalStorageVariable<string>({
     localStorageKey: 'my-key-in-local-storage',
     defaultValueIfNotInLocalStorage: 'default text' // optional
 })
