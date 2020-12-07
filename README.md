@@ -1,7 +1,7 @@
 # Observable
 
 This package provides observable data structures: 
-* [ObservableValue](#observableValueT)
+* [ObservableVariable](#observableVariableT)
 * [ObservableArray](#observableArrayT)
 * [ObservableMap](#observableMapKV)
 * [ObservableLocalStorageVariable](#observableLocalStorageVariableT)
@@ -15,7 +15,7 @@ npm install @lexriver/observable
 ## Import
 
 ``` typescript
-import {ObservableValue, ObservableArray, ObservableMap, ObservableLocalStorageVariable} from '@lexriver/observable'
+import {ObservableVariable, ObservableArray, ObservableMap, ObservableLocalStorageVariable} from '@lexriver/observable'
 ```
 
 
@@ -23,7 +23,7 @@ import {ObservableValue, ObservableArray, ObservableMap, ObservableLocalStorageV
 ## Example of usage
 
 ```typescript
-const myNumberO = new ObservableValue<number>(100) // 100 is initial value
+const myNumberO = new ObservableVariable<number>(100) // 100 is initial value
 
 // subscribe to event on change
 myNumberO.eventOnChange.subscribe((newValue, prevValue) => {
@@ -55,13 +55,13 @@ myNumberO.get() === 100 // correct
 <br/>
 <br/>
 
-# `ObservableValue<T>` 
+# `ObservableVariable<T>` 
 
-Use this class to create observable value.
-Value can be of any type, but the `eventOnChange` will be triggered only on `.set(..)` method. So for array and map use `ObservableArray<T>` and `ObservableMap<K,V>`.
+Use this class to create observable variable.
+Variable can be of any type, but the `eventOnChange` will be triggered only on `.set(..)` method. So for array and map use `ObservableArray<T>` and `ObservableMap<K,V>`.
 
 ```typescript
-const myStringO = new ObservableValue<string>('default text')
+const myStringO = new ObservableVariable<string>('default text')
 ```
 <br/>
 
