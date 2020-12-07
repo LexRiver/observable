@@ -4,7 +4,7 @@ import { Observable } from './Observable'
 
 
 type ActionOnChange<T> = (newValue:T, prevValue?:T)=>void
-export class ObservableValue<T> implements Observable{
+export class ObservableVariable<T> implements Observable{
     public eventOnChange = new TypeEvent<ActionOnChange<T>>()
 
     constructor(

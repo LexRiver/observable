@@ -1,9 +1,9 @@
 //import {equal} from 'assert'
-import { ObservableValue } from "./ObservableValue"
+import { ObservableVariable } from "./ObservableVariable"
 
-test('ObservableValue', () => {
+test('ObservableVariable', () => {
     let counter = 0
-    const x = new ObservableValue<number>(100)
+    const x = new ObservableVariable<number>(100)
     x.eventOnChange.subscribe((newValue, prevValue) => {
         if(prevValue){
             counter = prevValue+newValue

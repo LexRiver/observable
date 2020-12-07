@@ -1,6 +1,6 @@
 import { ObservableArray } from './ObservableArray'
 import { ObservableMap } from './ObservableMap'
-import { ObservableValue } from './ObservableValue'
+import { ObservableVariable } from './ObservableVariable'
 import { Observable } from './Observable'
 
 // export function createObservable<T extends Map<K,V>|Array<V>|string|number|boolean, K, V>(initialValue:T):
@@ -22,20 +22,20 @@ import { Observable } from './Observable'
 
 
 
-export function createObservable(x:string):ObservableValue<string>;
-export function createObservable(x:number):ObservableValue<number>;
-export function createObservable(x:boolean):ObservableValue<boolean>;
+export function createObservable(x:string):ObservableVariable<string>;
+export function createObservable(x:number):ObservableVariable<number>;
+export function createObservable(x:boolean):ObservableVariable<boolean>;
 export function createObservable<T extends Array<V>, V>(x:Array<V>):ObservableArray<V>;
 export function createObservable<T extends Map<K,V>, K, V>(x:Map<K,V>):ObservableMap<K,V>;
 export function createObservable<T extends string | number | boolean | Array<V> | Map<K,V>, K, V>(x:T){
     if(typeof x === 'string'){
-        return new ObservableValue<string>(x)
+        return new ObservableVariable<string>(x)
     }
     if(typeof x === 'number'){
-        return new ObservableValue<number>(x)
+        return new ObservableVariable<number>(x)
     }
     if(typeof x === 'boolean'){
-        return new ObservableValue<boolean>(x)
+        return new ObservableVariable<boolean>(x)
     }
     if(Array.isArray(x)){
         return new ObservableArray<V>(x)
@@ -48,5 +48,5 @@ export function createObservable<T extends string | number | boolean | Array<V> 
 }
 
 export function checkIfObservable(o:any): o is Observable{
-    return o instanceof ObservableValue || o instanceof ObservableArray || o instanceof ObservableMap
+    return o instanceof ObservableVariable || o instanceof ObservableArray || o instanceof ObservableMap
 }
