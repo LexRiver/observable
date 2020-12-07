@@ -5,6 +5,8 @@ This package provides observable data structures:
 * [ObservableArray](#observableArrayT)
 * [ObservableMap](#observableMapKV)
 * [ObservableLocalStorageVariable](#observableLocalStorageVariableT)
+* [createObservable](#createObservable)
+* [checkIfObservable](#checkIfObesrvable)
 
 ## Install
 
@@ -15,7 +17,7 @@ npm install @lexriver/observable
 ## Import
 
 ``` typescript
-import {ObservableVariable, ObservableArray, ObservableMap, ObservableLocalStorageVariable} from '@lexriver/observable'
+import {ObservableVariable, ObservableArray, ObservableMap, ObservableLocalStorageVariable, createObservable, checkIfObservable } from '@lexriver/observable'
 ```
 
 
@@ -827,5 +829,69 @@ Get current value.
 let result = myStringO.get()
 ```
 <br/>
+
+
+<br/>
+<br/>
+<br/>
+
+
+# `createObservable`
+
+A special function `createObservable(myValue)` can be used to create observable from existed value.
+Function accept only one parameter of any of these types:
+* string
+* number
+* boolean
+* Array
+* Map
+
+```typescript
+export function createObservable(x:string):ObservableVariable<string>;
+export function createObservable(x:number):ObservableVariable<number>;
+export function createObservable(x:boolean):ObservableVariable<boolean>;
+export function createObservable<T extends Array<V>, V>(x:Array<V>):ObservableArray<V>;
+export function createObservable<T extends Map<K,V>, K, V>(x:Map<K,V>):ObservableMap<K,V>;
+```
+
+example to create `ObservableVariable<string>`
+```typescript
+    let obsStringO = createObservable('default string')
+    obsStringO.eventOnChange.subscribe((x) => console.log('obsString change', x))
+    obsStringO.set('another string')
+
+```
+
+example to create `ObservableMap<string, number>`
+```typescript
+    let map = new Map<string, number>()
+    let obsMapO = createObservable(map)
+    obsMapO.eventOnChange.subscribe((k,v) => console.log('obsMap change', k, v))
+    obsMapO.set('one', 100)
+    obsMapO.set('two', 200)
+```
+
+<br/>
+<br/>
+<br/>
+
+# `checkIfObservable`
+
+Use function `checkIfObservable(o:any)` to check if variable is any of type:
+* ObservableVariable
+* ObservableArray
+* ObservableMap
+
+example
+```typescript
+    let obsStringO = createObservable('default string')
+    let myNumberO = new ObservableVariable<number>(100)
+    let myMapO = new ObservableMap<string, number>()
+    let myBoolean = false
+    checkifObservable(obsStringO) // true
+    checkifObservable(myNumberO) // true
+    checkifObservable(myMapO) // true
+    checkifObservable(myBoolean) // false
+```
 
 

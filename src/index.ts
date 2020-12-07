@@ -1,5 +1,5 @@
 //export * from './Observable.ts.old'
-export * from "./ObservableValue"
+export * from "./ObservableVariable"
 export * from "./ObservableArray"
 export * from './ObservableMap'
 export * from './ObservableLocalStorageVariable'

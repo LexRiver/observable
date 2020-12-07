@@ -78,12 +78,18 @@ var ObservableArray = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
-    ObservableArray.prototype.get = function () {
+    ObservableArray.prototype.getInternalArray = function () {
         return this.items;
+    };
+    ObservableArray.prototype.getAsArray = function () {
+        return this.getItemsCopy();
+    };
+    ObservableArray.prototype.toArray = function () {
+        return this.getAsArray();
     };
     ObservableArray.prototype.set = function (items) {
         this.items = items;
-        console.log('set:', 'items=', items, 'this.items=', this.items);
+        //console.log('set:', 'items=', items, 'this.items=', this.items)
         this.eventOnChange.triggerAsync();
     };
     ObservableArray.prototype.setByPrevious = function (setter) {
@@ -310,9 +316,6 @@ var ObservableArray = /** @class */ (function () {
         this.items.splice(index, 1);
         //this.eventOnRemove.triggerAsync(itemToBeRemoved)
         this.eventOnChange.triggerAsync(itemToBeRemoved);
-    };
-    ObservableArray.prototype.getCopyAsArray = function () {
-        return this.getItemsCopy();
     };
     ObservableArray.prototype[Symbol.iterator] = function () {
         return this;

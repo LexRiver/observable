@@ -11,7 +11,7 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 //export * from './Observable.ts.old'
-__exportStar(require("./ObservableValue"), exports);
+__exportStar(require("./ObservableVariable"), exports);
 __exportStar(require("./ObservableArray"), exports);
 __exportStar(require("./ObservableMap"), exports);
 __exportStar(require("./ObservableLocalStorageVariable"), exports);

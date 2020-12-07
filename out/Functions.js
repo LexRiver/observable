@@ -3,16 +3,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.checkIfObservable = exports.createObservable = void 0;
 var ObservableArray_1 = require("./ObservableArray");
 var ObservableMap_1 = require("./ObservableMap");
-var ObservableValue_1 = require("./ObservableValue");
+var ObservableVariable_1 = require("./ObservableVariable");
 function createObservable(x) {
     if (typeof x === 'string') {
-        return new ObservableValue_1.ObservableValue(x);
+        return new ObservableVariable_1.ObservableVariable(x);
     }
     if (typeof x === 'number') {
-        return new ObservableValue_1.ObservableValue(x);
+        return new ObservableVariable_1.ObservableVariable(x);
     }
     if (typeof x === 'boolean') {
-        return new ObservableValue_1.ObservableValue(x);
+        return new ObservableVariable_1.ObservableVariable(x);
     }
     if (Array.isArray(x)) {
         return new ObservableArray_1.ObservableArray(x);
@@ -25,6 +25,6 @@ function createObservable(x) {
 }
 exports.createObservable = createObservable;
 function checkIfObservable(o) {
-    return o instanceof ObservableValue_1.ObservableValue || o instanceof ObservableArray_1.ObservableArray || o instanceof ObservableMap_1.ObservableMap;
+    return o instanceof ObservableVariable_1.ObservableVariable || o instanceof ObservableArray_1.ObservableArray || o instanceof ObservableMap_1.ObservableMap;
 }
 exports.checkIfObservable = checkIfObservable;

@@ -6,7 +6,8 @@ var type_event_1 = require("@lexriver/type-event");
 var ObservableMap = /** @class */ (function () {
     function ObservableMap(mapEntries) {
         this.eventOnChange = new type_event_1.TypeEvent();
-        this.eventOnDelete = new type_event_1.TypeEvent();
+        this.eventOnChangeKey = new type_event_1.TypeEvent();
+        this.eventOnDeleteKey = new type_event_1.TypeEvent();
         this.eventOnClear = new type_event_1.TypeEvent();
         this.internalMap = new Map();
         if (mapEntries) {
@@ -35,6 +36,7 @@ var ObservableMap = /** @class */ (function () {
     };
     ObservableMap.prototype.set = function (key, value) {
         this.internalMap.set(key, value);
+        this.eventOnChangeKey.triggerAsync(key, value);
         this.eventOnChange.triggerAsync(key, value);
     };
     ObservableMap.prototype.get = function (key) {
@@ -45,16 +47,20 @@ var ObservableMap = /** @class */ (function () {
     };
     ObservableMap.prototype.initFromArray = function (mapEntries) {
         this.internalMap = new Map(mapEntries);
+        this.eventOnChange.triggerAsync();
     };
     ObservableMap.prototype.delete = function (key) {
         var result = this.internalMap.delete(key);
-        if (result)
-            this.eventOnDelete.triggerAsync(key);
+        if (result) {
+            this.eventOnDeleteKey.triggerAsync(key);
+            this.eventOnChange.triggerAsync(key);
+        }
         return result;
     };
     ObservableMap.prototype.clear = function () {
         this.internalMap.clear();
         this.eventOnClear.triggerAsync();
+        this.eventOnChange.triggerAsync();
     };
     /**
      * The keys() method returns a new Iterator object that contains the keys for each element in the Map object in insertion order.

@@ -1,8 +1,9 @@
 import { TypeEvent } from "@lexriver/type-event";
 import { Observable } from "./Observable";
 export declare class ObservableMap<K, V> implements Observable {
-    eventOnChange: TypeEvent<(key: K, value: V) => void>;
-    eventOnDelete: TypeEvent<(key: K) => void>;
+    eventOnChange: TypeEvent<(key?: K, value?: V) => void>;
+    eventOnChangeKey: TypeEvent<(key: K, value: V) => void>;
+    eventOnDeleteKey: TypeEvent<(key: K) => void>;
     eventOnClear: TypeEvent<() => void>;
     protected internalMap: Map<K, V>;
     constructor(mapEntries?: Iterable<readonly [K, V]>);

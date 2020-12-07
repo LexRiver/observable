@@ -7,7 +7,9 @@ export declare class ObservableArray<T> implements IterableIterator<T>, Observab
     constructor(initialArray?: T[]);
     protected getItemsCopy(): T[];
     get length(): number;
-    get(): T[];
+    getInternalArray(): T[];
+    getAsArray(): T[];
+    toArray(): T[];
     set(items: T[]): void;
     setByPrevious(setter: (oldValue: T[]) => T[]): void;
     appendArray(arrayToAppend: T[]): void;
@@ -139,7 +141,6 @@ export declare class ObservableArray<T> implements IterableIterator<T>, Observab
     getByIndex(index: number): T;
     setByIndex(index: number, value: T): void;
     removeItemByIndex(index: number): void;
-    getCopyAsArray(): T[];
     protected iteratorIndex: number;
     [Symbol.iterator](): IterableIterator<T>;
     next(): IteratorResult<T>;
