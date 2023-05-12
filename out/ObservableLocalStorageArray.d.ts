@@ -150,6 +150,13 @@ export declare class ObservableLocalStorageArray<T> implements Observable {
     getByIndex(index: number): T;
     setByIndex(index: number, value: T): void;
     removeItemByIndex(index: number): void;
+    /**
+     * Removes first item in array.
+     * Returns true if successful.
+     * @param item
+     * @returns
+     */
+    removeFirst(item: T): boolean;
     protected iteratorIndex: number;
     [Symbol.iterator](): IterableIterator<T>;
     next(): IteratorResult<T>;

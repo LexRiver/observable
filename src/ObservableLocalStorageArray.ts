@@ -293,10 +293,25 @@ export class ObservableLocalStorageArray<T> implements Observable{
 
 
     removeItemByIndex(index:number){
-        const itemToBeRemoved = this.items[index]
+        // const itemToBeRemoved = this.items[index]
         this.items.splice(index,1)
         //this.eventOnRemove.triggerAsync(itemToBeRemoved)
         this.set(this.items)
+    }
+
+    /**
+     * Removes first item in array.
+     * Returns true if successful.
+     * @param item 
+     * @returns 
+     */
+    removeFirst(item:T){
+        const index = this.items.indexOf(item)
+        if(index>=0){
+            this.removeItemByIndex(index)
+            return true
+        }
+        return false
     }
 
     //#region iterator

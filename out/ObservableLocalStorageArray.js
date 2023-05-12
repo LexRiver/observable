@@ -282,10 +282,24 @@ var ObservableLocalStorageArray = /** @class */ (function () {
         this.set(this.items);
     };
     ObservableLocalStorageArray.prototype.removeItemByIndex = function (index) {
-        var itemToBeRemoved = this.items[index];
+        // const itemToBeRemoved = this.items[index]
         this.items.splice(index, 1);
         //this.eventOnRemove.triggerAsync(itemToBeRemoved)
         this.set(this.items);
+    };
+    /**
+     * Removes first item in array.
+     * Returns true if successful.
+     * @param item
+     * @returns
+     */
+    ObservableLocalStorageArray.prototype.removeFirst = function (item) {
+        var index = this.items.indexOf(item);
+        if (index >= 0) {
+            this.removeItemByIndex(index);
+            return true;
+        }
+        return false;
     };
     ObservableLocalStorageArray.prototype[Symbol.iterator] = function () {
         return this;
