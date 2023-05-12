@@ -5,6 +5,7 @@ This package provides observable data structures:
 * [ObservableArray](#observableArrayT)
 * [ObservableMap](#observableMapKV)
 * [ObservableLocalStorageVariable](#observableLocalStorageVariableT)
+* [ObservableLocalStorageArray](#observableLocalStorageArrayT)
 * [createObservable](#createObservable)
 * [checkIfObservable](#checkIfObesrvable)
 
@@ -17,7 +18,7 @@ npm install @lexriver/observable
 ## Import
 
 ``` typescript
-import {ObservableVariable, ObservableArray, ObservableMap, ObservableLocalStorageVariable, createObservable, checkIfObservable } from '@lexriver/observable'
+import {ObservableVariable, ObservableArray, ObservableMap, ObservableLocalStorageVariable, ObservableLocalStorageArray, createObservable, checkIfObservable } from '@lexriver/observable'
 ```
 
 
@@ -831,6 +832,11 @@ let result = myStringO.get()
 <br/>
 
 
+# `ObservableLocalStorageArray`
+`ObservableLocalStorageArray` allows to track changes for array in localStorage in browser.
+Most methods are the same as in `ObservableArray` but it stores value in localStorage and triggers event when the value is changed.
+
+<br/>
 <br/>
 <br/>
 <br/>
