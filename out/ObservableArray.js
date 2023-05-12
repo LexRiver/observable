@@ -15,9 +15,14 @@ var __read = (this && this.__read) || function (o, n) {
     }
     return ar;
 };
-var __spread = (this && this.__spread) || function () {
-    for (var ar = [], i = 0; i < arguments.length; i++) ar = ar.concat(__read(arguments[i]));
-    return ar;
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ObservableArray = void 0;
@@ -268,7 +273,7 @@ var ObservableArray = /** @class */ (function () {
             items[_i - 2] = arguments[_i];
         }
         var result = typeof deleteCount === 'number'
-            ? (_a = this.items).splice.apply(_a, __spread([start, deleteCount], items)) : this.items.splice(start, deleteCount);
+            ? (_a = this.items).splice.apply(_a, __spreadArray([start, deleteCount], __read(items), false)) : this.items.splice(start, deleteCount);
         this.eventOnChange.triggerAsync();
         return result;
     };
@@ -294,7 +299,7 @@ var ObservableArray = /** @class */ (function () {
         for (var _i = 0; _i < arguments.length; _i++) {
             items[_i] = arguments[_i];
         }
-        var result = (_a = this.items).unshift.apply(_a, __spread(items));
+        var result = (_a = this.items).unshift.apply(_a, __spreadArray([], __read(items), false));
         this.eventOnChange.triggerAsync();
         return result;
     };
