@@ -19,4 +19,5 @@ __exportStar(require("./ObservableVariable"), exports);
 __exportStar(require("./ObservableArray"), exports);
 __exportStar(require("./ObservableMap"), exports);
 __exportStar(require("./ObservableLocalStorageVariable"), exports);
+__exportStar(require("./ObservableLocalStorageArray"), exports);
 __exportStar(require("./Functions"), exports);
