@@ -1,4 +1,5 @@
-import { ObservableArray } from "./ObservableArray"
+import { expect, test } from 'vitest'
+import { ObservableArray } from "./ObservableArray.mjs"
 
 test('ObservableArray', async () => {
     const x = new ObservableArray<number>([])

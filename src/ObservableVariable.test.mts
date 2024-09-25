@@ -1,5 +1,5 @@
-//import {equal} from 'assert'
-import { ObservableVariable } from "./ObservableVariable"
+import { expect, test } from 'vitest'
+import { ObservableVariable } from "./ObservableVariable.mjs"
 
 test('ObservableVariable', () => {
     let counter = 0

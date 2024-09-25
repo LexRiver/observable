@@ -1,7 +1,7 @@
 import { TypeEvent } from "@lexriver/type-event";
-import { Observable } from "./Observable";
+import { Observable } from "./Observable.mjs";
 
-const filename = '[ObservableLocalStorageVariable]:'
+// const filename = '[ObservableLocalStorageVariable]:'
 
 /**
  * 1) set -> saves to localStorage if new

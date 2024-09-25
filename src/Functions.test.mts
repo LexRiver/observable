@@ -1,4 +1,5 @@
-import { createObservable, checkIfObservable } from "./Functions"
+import { expect, test } from 'vitest'
+import { checkIfObservable, createObservable } from "./Functions.mjs"
 
 test('Functions', () => {
     let obsString = createObservable('string')

@@ -1,4 +1,5 @@
-import { ObservableMap } from "./ObservableMap"
+import { expect, test } from 'vitest'
+import { ObservableMap } from "./ObservableMap.mjs"
 
 test('map', () => {
     let myMapO = new ObservableMap<string, number>()

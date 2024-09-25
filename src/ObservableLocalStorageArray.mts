@@ -1,5 +1,5 @@
 import { TypeEvent } from "@lexriver/type-event";
-import { Observable } from "./Observable";
+import { Observable } from "./Observable.mjs";
 
 const filename = '[ObservableLocalStorageArray]:'
 

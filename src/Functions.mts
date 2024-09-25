@@ -1,7 +1,7 @@
-import { ObservableArray } from './ObservableArray'
-import { ObservableMap } from './ObservableMap'
-import { ObservableVariable } from './ObservableVariable'
-import { Observable } from './Observable'
+import { Observable } from './Observable.mjs'
+import { ObservableArray } from './ObservableArray.mjs'
+import { ObservableMap } from './ObservableMap.mjs'
+import { ObservableVariable } from './ObservableVariable.mjs'
 
 // export function createObservable<T extends Map<K,V>|Array<V>|string|number|boolean, K, V>(initialValue:T):
 //     T extends Map<K, V> ?

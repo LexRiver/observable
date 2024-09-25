@@ -1,5 +1,5 @@
-import {TypeEvent} from '@lexriver/type-event'
-import { Observable } from './Observable'
+import { TypeEvent } from '@lexriver/type-event'
+import { Observable } from './Observable.mjs'
 //import { Observable } from './Observable.ts.old'
 
 

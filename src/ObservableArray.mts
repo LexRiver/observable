@@ -1,5 +1,5 @@
 import { TypeEvent } from "@lexriver/type-event"
-import { Observable } from "./Observable"
+import { Observable } from "./Observable.mjs"
 
 //TODO: implement missing members to match array closely
 export class ObservableArray<T> implements IterableIterator<T>, Observable{
