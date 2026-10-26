@@ -1,7 +1,7 @@
 {
     "sideEffects": false,
     "name": "@lexriver/observable",
-    "version": "3.0.0",
+    "version": "3.1.0",
     "description": "Collection of observable variable, array and map.",
     "type": "module",
     "exports": "./out/src/index.mjs",
