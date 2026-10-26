@@ -165,6 +165,38 @@ test('array handles the storage clear event', async () => {
     expect(changes).toEqual([[9]])
 })
 
+test.each([
+    ['false', false],
+    ['zero', 0],
+    ['empty string', '']
+] as const)('variable preserves a falsy %s default', (_name, defaultValue) => {
+    const variable = new ObservableLocalStorageVariable<boolean|number|string>({
+        localStorageKey: 'setting',
+        defaultValueIfNotInLocalStorage: defaultValue
+    })
+
+    expect(variable.get()).toBe(defaultValue)
+})
+
+test('variable set(undefined) removes storage and emits the resulting default state', async () => {
+    window.localStorage.setItem('setting', JSON.stringify(true))
+    const variable = new ObservableLocalStorageVariable<boolean>({
+        localStorageKey: 'setting',
+        defaultValueIfNotInLocalStorage: false
+    })
+    const changes:Array<[boolean|undefined, boolean|undefined]> = []
+    variable.eventOnChange.subscribe((value, oldValue) => {
+        changes.push([value, oldValue])
+    })
+
+    variable.set(undefined)
+    await variable.waitForEvents()
+
+    expect(window.localStorage.getItem('setting')).toBeNull()
+    expect(variable.get()).toBe(false)
+    expect(changes).toEqual([[false, true]])
+})
+
 test('variable handles the storage clear event', async () => {
     window.localStorage.setItem('setting', JSON.stringify('stored'))
     const variable = new ObservableLocalStorageVariable<string>({

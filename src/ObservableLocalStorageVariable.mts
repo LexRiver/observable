@@ -50,11 +50,18 @@ export class ObservableLocalStorageVariable<T> implements Observable{
     set(value:T|undefined){
         const valueToPut = JSON.stringify(value)
         const valueInLocalStorageAsString = window.localStorage.getItem(this.p.localStorageKey)
-        if(valueToPut !== valueInLocalStorageAsString){
+        const storageValueWillChange = value === undefined
+            ? valueInLocalStorageAsString !== null || !Object.is(this.currentValue, this.p.defaultValueIfNotInLocalStorage)
+            : valueToPut !== valueInLocalStorageAsString
+        if(storageValueWillChange){
             const prevValue = this.currentValue
-            window.localStorage.setItem(this.p.localStorageKey, valueToPut)  // event is not triggered for current window
+            if(value === undefined){
+                window.localStorage.removeItem(this.p.localStorageKey)
+            } else {
+                window.localStorage.setItem(this.p.localStorageKey, valueToPut)  // event is not triggered for current window
+            }
             this.assignCurrentValue()
-            this.eventDispatcher.dispatch(this.eventOnChange, value, prevValue)
+            this.eventDispatcher.dispatch(this.eventOnChange, this.currentValue, prevValue)
         }
     }
 
@@ -73,7 +80,7 @@ export class ObservableLocalStorageVariable<T> implements Observable{
     }
 
     protected assignCurrentValue(){
-        this.currentValue = this.p.defaultValueIfNotInLocalStorage || undefined
+        this.currentValue = this.p.defaultValueIfNotInLocalStorage ?? undefined
         let stringValue = this.getValueFromLocalStorage()
         if(stringValue){
             try {
