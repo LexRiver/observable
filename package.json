@@ -1,7 +1,7 @@
 {
     "sideEffects": false,
     "name": "@lexriver/observable",
-    "version": "3.1.0",
+    "version": "3.1.1",
     "description": "Collection of observable variable, array and map.",
     "type": "module",
     "exports": "./out/src/index.mjs",
@@ -27,6 +27,6 @@
         "vitest": "^2.1.1"
     },
     "dependencies": {
-        "@lexriver/type-event": "^2.0.0"
+        "@lexriver/type-event": "^3.0.4"
     }
 }

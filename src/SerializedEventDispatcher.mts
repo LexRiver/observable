@@ -11,7 +11,7 @@ export class SerializedEventDispatcher {
     private resolveIdle:()=>void = () => undefined
 
     dispatch<F extends EventHandler>(event:TypeEvent<F>, ...args:Parameters<F>):void {
-        this.queue.push(() => event.triggerAsync(...args))
+        this.queue.push(() => event.trigger(...args))
         if(this.isDispatching) return
 
         this.isDispatching = true
@@ -32,7 +32,7 @@ export class SerializedEventDispatcher {
                 await trigger()
             } catch(error){
                 try {
-                    await this.eventOnError.triggerAsync(error)
+                    await this.eventOnError.trigger(error)
                 } catch(errorHandlerError){
                     console.error('Observable event error handler failed', errorHandlerError)
                 }
