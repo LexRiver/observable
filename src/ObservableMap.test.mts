@@ -1,7 +1,7 @@
 import { expect, test } from 'vitest'
 import { ObservableMap } from "./ObservableMap.mjs"
 
-test('map', () => {
+test('map', async () => {
     let myMapO = new ObservableMap<string, number>()
     let counter = 0
     myMapO.eventOnChange.subscribe((k,v) => {
@@ -9,6 +9,7 @@ test('map', () => {
         counter++
     })
     myMapO.set('one', 1)
+    await myMapO.waitForEvents()
     expect(myMapO.get('one')).toEqual(1)
     expect(counter).toEqual(1)
 })

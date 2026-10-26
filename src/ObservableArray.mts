@@ -1,11 +1,14 @@
 import { TypeEvent } from "@lexriver/type-event"
-import { Observable } from "./Observable.mjs"
+import { Observable } from "./Observable.mjs";
+import { SerializedEventDispatcher } from "./SerializedEventDispatcher.mjs";
 
 //TODO: implement missing members to match array closely
 export class ObservableArray<T> implements IterableIterator<T>, Observable{
     [key:number]:T
 
     eventOnChange:TypeEvent<(changedItem?:T)=>void> = new TypeEvent()
+    protected eventDispatcher = new SerializedEventDispatcher()
+    public eventOnError = this.eventDispatcher.eventOnError
     //eventOnAdd:TypeEvent<(item:T, index:number)=>void> = new TypeEvent()
     //eventOnRemove:TypeEvent<(item:T, index:number)=>void> = new TypeEvent()
     protected items:T[] = []
@@ -37,7 +40,7 @@ export class ObservableArray<T> implements IterableIterator<T>, Observable{
                 if(propNumber>=0){
                     //console.log('proxy SET', 'prop=', prop, 'value=', value)
                     this.items[propNumber] = value
-                    this.eventOnChange.triggerAsync(value)
+                    this.eventDispatcher.dispatch(this.eventOnChange, value)
                 }
                 return true
             }
@@ -71,19 +74,19 @@ export class ObservableArray<T> implements IterableIterator<T>, Observable{
     set(items:T[]){
         this.items = items
         //console.log('set:', 'items=', items, 'this.items=', this.items)
-        this.eventOnChange.triggerAsync()
+        this.eventDispatcher.dispatch(this.eventOnChange)
     }
 
     setByPrevious(setter:(oldValue:T[])=>T[]){
         const prevItems = this.items
         const nextItems = setter(prevItems)
         this.items = nextItems
-        this.eventOnChange.triggerAsync()
+        this.eventDispatcher.dispatch(this.eventOnChange)
     }
 
     appendArray(arrayToAppend:T[]){
         this.items = this.items.concat(arrayToAppend)
-        this.eventOnChange.triggerAsync()
+        this.eventDispatcher.dispatch(this.eventOnChange)
     }
 
     /**
@@ -99,7 +102,7 @@ export class ObservableArray<T> implements IterableIterator<T>, Observable{
      */
     fill(value:T, start?:number, end?:number){
         const result = this.items.fill(value, start, end)
-        this.eventOnChange.triggerAsync()
+        this.eventDispatcher.dispatch(this.eventOnChange)
         return result
     }
 
@@ -186,7 +189,7 @@ export class ObservableArray<T> implements IterableIterator<T>, Observable{
      */
     pop(){
         const result = this.items.pop()
-        this.eventOnChange.triggerAsync()
+        this.eventDispatcher.dispatch(this.eventOnChange)
         return result
     }
 
@@ -196,7 +199,7 @@ export class ObservableArray<T> implements IterableIterator<T>, Observable{
      */
     push(item:T){
         this.items.push(item)
-        this.eventOnChange.triggerAsync(item) 
+        this.eventDispatcher.dispatch(this.eventOnChange, item)
         //this.eventOnPush.triggerAsync(item)
         return this.items.length
     }
@@ -220,7 +223,7 @@ export class ObservableArray<T> implements IterableIterator<T>, Observable{
      */
     reverse(){
         this.items.reverse()
-        this.eventOnChange.triggerAsync()
+        this.eventDispatcher.dispatch(this.eventOnChange)
     }
 
     /**
@@ -228,7 +231,7 @@ export class ObservableArray<T> implements IterableIterator<T>, Observable{
      */
     shift(): T | undefined{
         const result = this.items.shift()
-        this.eventOnChange.triggerAsync(result)
+        this.eventDispatcher.dispatch(this.eventOnChange, result)
         return result
     }
 
@@ -264,7 +267,7 @@ export class ObservableArray<T> implements IterableIterator<T>, Observable{
      */
     sort(compareFn?:(a:T, b:T)=>number){
         const result = this.items.sort(compareFn)
-        this.eventOnChange.triggerAsync()
+        this.eventDispatcher.dispatch(this.eventOnChange)
         return result
     }
 
@@ -285,7 +288,7 @@ export class ObservableArray<T> implements IterableIterator<T>, Observable{
         const result = typeof deleteCount === 'number'
             ? this.items.splice(start, deleteCount, ...items)
             : this.items.splice(start, deleteCount)
-        this.eventOnChange.triggerAsync()
+        this.eventDispatcher.dispatch(this.eventOnChange)
         return result
     }
 
@@ -309,7 +312,7 @@ export class ObservableArray<T> implements IterableIterator<T>, Observable{
      */
     unshift(...items: T[]): number{
         const result = this.items.unshift(...items)
-        this.eventOnChange.triggerAsync()
+        this.eventDispatcher.dispatch(this.eventOnChange)
         return result
     }
 
@@ -327,7 +330,7 @@ export class ObservableArray<T> implements IterableIterator<T>, Observable{
 
     setByIndex(index:number, value:T){
         this.items[index] = value
-        this.eventOnChange.triggerAsync(value)
+        this.eventDispatcher.dispatch(this.eventOnChange, value)
     }
 
 
@@ -335,11 +338,15 @@ export class ObservableArray<T> implements IterableIterator<T>, Observable{
         const itemToBeRemoved = this.items[index]
         this.items.splice(index,1)
         //this.eventOnRemove.triggerAsync(itemToBeRemoved)
-        this.eventOnChange.triggerAsync(itemToBeRemoved)
+        this.eventDispatcher.dispatch(this.eventOnChange, itemToBeRemoved)
     }
 
 
 
+
+    public waitForEvents(){
+        return this.eventDispatcher.waitForEvents()
+    }
 
     //#region iterator
 

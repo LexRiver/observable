@@ -1,5 +1,6 @@
 import { TypeEvent } from "@lexriver/type-event";
 import { Observable } from "./Observable.mjs";
+import { SerializedEventDispatcher } from "./SerializedEventDispatcher.mjs";
 
 // const filename = '[ObservableLocalStorageVariable]:'
 
@@ -14,6 +15,8 @@ export class ObservableLocalStorageVariable<T> implements Observable{
     protected currentValue:T|undefined = undefined
 
     public eventOnChange:TypeEvent<(newValue?:T, oldValue?:T)=>void> = new TypeEvent<(newValue?:T, oldValue?:T)=>void>()
+    protected eventDispatcher = new SerializedEventDispatcher()
+    public eventOnError = this.eventDispatcher.eventOnError
 
     constructor(protected p:{
         localStorageKey: string,
@@ -36,7 +39,7 @@ export class ObservableLocalStorageVariable<T> implements Observable{
 
             const oldValue = this.currentValue
             this.assignCurrentValue()
-            this.eventOnChange.triggerAsync(this.currentValue, oldValue)
+            this.eventDispatcher.dispatch(this.eventOnChange, this.currentValue, oldValue)
         })
     }
 
@@ -51,8 +54,12 @@ export class ObservableLocalStorageVariable<T> implements Observable{
             const prevValue = this.currentValue
             window.localStorage.setItem(this.p.localStorageKey, valueToPut)  // event is not triggered for current window
             this.assignCurrentValue()
-            this.eventOnChange.triggerAsync(value, prevValue)
+            this.eventDispatcher.dispatch(this.eventOnChange, value, prevValue)
         }
+    }
+
+    public waitForEvents(){
+        return this.eventDispatcher.waitForEvents()
     }
 
     protected getValueFromLocalStorage(){

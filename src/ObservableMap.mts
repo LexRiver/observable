@@ -1,5 +1,6 @@
 import { TypeEvent } from "@lexriver/type-event"
 import { Observable } from "./Observable.mjs"
+import { SerializedEventDispatcher } from "./SerializedEventDispatcher.mjs"
 //import { Observable } from "./Observable.ts.old"
 
 export class ObservableMap<K,V> implements Observable{
@@ -7,6 +8,8 @@ export class ObservableMap<K,V> implements Observable{
     public eventOnChangeKey:TypeEvent<(key:K, value:V)=>void> = new TypeEvent()
     public eventOnDeleteKey:TypeEvent<(key:K)=>void> = new TypeEvent()
     public eventOnClear:TypeEvent<() => void> = new TypeEvent()
+    protected eventDispatcher = new SerializedEventDispatcher()
+    public eventOnError = this.eventDispatcher.eventOnError
     protected internalMap = new Map<K, V>()
 
 
@@ -43,8 +46,8 @@ export class ObservableMap<K,V> implements Observable{
 
     public set(key:K, value:V){
         this.internalMap.set(key, value)
-        this.eventOnChangeKey.triggerAsync(key, value)
-        this.eventOnChange.triggerAsync(key, value)
+        this.eventDispatcher.dispatch(this.eventOnChangeKey, key, value)
+        this.eventDispatcher.dispatch(this.eventOnChange, key, value)
     }
 
     public get(key:K):V|undefined{
@@ -57,22 +60,26 @@ export class ObservableMap<K,V> implements Observable{
 
     public initFromArray(mapEntries:Iterable<readonly [K, V]>){
         this.internalMap = new Map<K, V>(mapEntries)
-        this.eventOnChange.triggerAsync()
+        this.eventDispatcher.dispatch(this.eventOnChange)
     }
 
     public delete(key:K){
         const result = this.internalMap.delete(key)
         if(result) {
-            this.eventOnDeleteKey.triggerAsync(key)
-            this.eventOnChange.triggerAsync(key)
+            this.eventDispatcher.dispatch(this.eventOnDeleteKey, key)
+            this.eventDispatcher.dispatch(this.eventOnChange, key)
         }
         return result
     }
 
     public clear(){
         this.internalMap.clear()
-        this.eventOnClear.triggerAsync()
-        this.eventOnChange.triggerAsync()
+        this.eventDispatcher.dispatch(this.eventOnClear)
+        this.eventDispatcher.dispatch(this.eventOnChange)
+    }
+
+    public waitForEvents(){
+        return this.eventDispatcher.waitForEvents()
     }
 
     /**

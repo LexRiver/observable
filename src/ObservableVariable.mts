@@ -1,11 +1,14 @@
 import { TypeEvent } from '@lexriver/type-event'
 import { Observable } from './Observable.mjs'
+import { SerializedEventDispatcher } from './SerializedEventDispatcher.mjs'
 //import { Observable } from './Observable.ts.old'
 
 
 type ActionOnChange<T> = (newValue:T, prevValue?:T)=>void
 export class ObservableVariable<T> implements Observable{
     public eventOnChange = new TypeEvent<ActionOnChange<T>>()
+    protected eventDispatcher = new SerializedEventDispatcher()
+    public eventOnError = this.eventDispatcher.eventOnError
 
     constructor(
         protected value:T, 
@@ -23,7 +26,7 @@ export class ObservableVariable<T> implements Observable{
         // }
         const prevValue = this.value
         this.value = value
-        this.eventOnChange.triggerAsync(this.value, prevValue)
+        this.eventDispatcher.dispatch(this.eventOnChange, this.value, prevValue)
     }
 
 
@@ -39,7 +42,11 @@ export class ObservableVariable<T> implements Observable{
         // if(this.keepHistory){
         //     this.history.push({datetime:new Date(), value:newValue, comment})
         // }
-        this.eventOnChange.triggerAsync(this.value, prevValue)
+        this.eventDispatcher.dispatch(this.eventOnChange, this.value, prevValue)
+    }
+
+    public waitForEvents(){
+        return this.eventDispatcher.waitForEvents()
     }
 
     public get(){

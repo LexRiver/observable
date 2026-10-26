@@ -23,11 +23,13 @@ test('ObservableArray set', async () => {
         console.log('ObservableArray set: change', countOfChanges, x.getInternalArray())
     })
     x.set([2,3,4])
+    await x.waitForEvents()
     console.log('ObservableArray set', x.getInternalArray())
     expect(x.getInternalArray()).toEqual([2,3,4])
     expect(countOfChanges).toEqual(1)
 
     x.push(5)
+    await x.waitForEvents()
     expect(x.getInternalArray()).toEqual([2,3,4,5])
     expect(countOfChanges).toEqual(2)
 
@@ -46,12 +48,15 @@ test('ObservableArray getting by index brackets', async() => {
         countOfChanges++
     })
     x.push(100)
+    await x.waitForEvents()
     expect(x[0]).toEqual(100)
     x[1] = 200
+    await x.waitForEvents()
     expect(x[1]).toEqual(200)
     expect(x.getByIndex(1)).toEqual(200)
     expect(countOfChanges).toEqual(2)
     x[1] = 300
+    await x.waitForEvents()
     expect(countOfChanges).toEqual(3)
 
 })

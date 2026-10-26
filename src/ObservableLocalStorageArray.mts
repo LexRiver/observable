@@ -1,5 +1,6 @@
 import { TypeEvent } from "@lexriver/type-event";
 import { Observable } from "./Observable.mjs";
+import { SerializedEventDispatcher } from "./SerializedEventDispatcher.mjs";
 
 const filename = '[ObservableLocalStorageArray]:'
 
@@ -14,6 +15,8 @@ export class ObservableLocalStorageArray<T> implements Observable{
     protected items:T[] = []
 
     public eventOnChange:TypeEvent<(arr:T[])=>void> = new TypeEvent<(arr:T[])=>void>()
+    protected eventDispatcher = new SerializedEventDispatcher()
+    public eventOnError = this.eventDispatcher.eventOnError
 
     constructor(protected p:{
         localStorageKey: string,
@@ -345,6 +348,10 @@ export class ObservableLocalStorageArray<T> implements Observable{
         }
     }
 
+    public waitForEvents(){
+        return this.eventDispatcher.waitForEvents()
+    }
+
     protected getValueFromLocalStorage(){
         const valueInLocalStorageAsString = window.localStorage.getItem(this.p.localStorageKey)
         if(valueInLocalStorageAsString == null || valueInLocalStorageAsString === "undefined"){
@@ -367,7 +374,7 @@ export class ObservableLocalStorageArray<T> implements Observable{
             try {
                 this.items = JSON.parse(newItemsAsString)
                 if(triggerEventIfNew){
-                    this.eventOnChange.triggerAsync(this.items)
+                    this.eventDispatcher.dispatch(this.eventOnChange, this.items)
                 }
             } catch(x){
                 console.warn('unable to parse', newItemsAsString)
