@@ -40,6 +40,20 @@ test('ObservableArray set', async () => {
 
 })
 
+test('ObservableArray splice with only start removes through the end', async () => {
+    const x = new ObservableArray([1, 2, 3, 4])
+    let changes = 0
+    x.eventOnChange.subscribe(() => {
+        changes++
+    })
+
+    expect(x.splice(2)).toEqual([3, 4])
+    await x.waitForEvents()
+
+    expect(x.toArray()).toEqual([1, 2])
+    expect(changes).toBe(1)
+})
+
 test('ObservableArray iteration supports symbols and independent iterators', () => {
     const x = new ObservableArray([1, 2, 3])
     const first = x[Symbol.iterator]()

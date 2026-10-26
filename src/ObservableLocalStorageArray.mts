@@ -256,7 +256,7 @@ export class ObservableLocalStorageArray<T> implements Observable{
     splice(start:number, deleteCount?:number, ...items:T[]):T[]{
         const result = typeof deleteCount === 'number'
             ? this.items.splice(start, deleteCount, ...items)
-            : this.items.splice(start, deleteCount)
+            : this.items.splice(start)
         this.set(this.items)
         return result
     }

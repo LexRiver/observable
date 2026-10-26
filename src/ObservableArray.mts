@@ -288,7 +288,7 @@ export class ObservableArray<T> implements IterableIterator<T>, Observable{
     splice(start:number, deleteCount?:number, ...items:T[]):T[]{
         const result = typeof deleteCount === 'number'
             ? this.items.splice(start, deleteCount, ...items)
-            : this.items.splice(start, deleteCount)
+            : this.items.splice(start)
         this.eventDispatcher.dispatch(this.eventOnChange)
         return result
     }

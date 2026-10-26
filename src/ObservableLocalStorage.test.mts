@@ -79,6 +79,23 @@ test.each(localArrayMutators)('$name emits its locally changed array', async ({m
     expect(JSON.parse(window.localStorage.getItem('items')!)).toEqual(array.toArray())
 })
 
+test('local storage array splice with only start removes through the end', async () => {
+    const array = new ObservableLocalStorageArray<number>({
+        localStorageKey: 'items',
+        defaultValueIfNotInLocalStorage: [1, 2, 3, 4]
+    })
+    const changes:number[][] = []
+    array.eventOnChange.subscribe(items => {
+        changes.push(items)
+    })
+
+    expect(array.splice(2)).toEqual([3, 4])
+    await array.waitForEvents()
+
+    expect(array.toArray()).toEqual([1, 2])
+    expect(changes).toEqual([[1, 2]])
+})
+
 test('local storage array iterators are independent and next advances', () => {
     const array = new ObservableLocalStorageArray<number>({
         localStorageKey: 'items',
