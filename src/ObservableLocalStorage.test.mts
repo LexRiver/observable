@@ -79,6 +79,23 @@ test.each(localArrayMutators)('$name emits its locally changed array', async ({m
     expect(JSON.parse(window.localStorage.getItem('items')!)).toEqual(array.toArray())
 })
 
+test('local storage array iterators are independent and next advances', () => {
+    const array = new ObservableLocalStorageArray<number>({
+        localStorageKey: 'items',
+        defaultValueIfNotInLocalStorage: [1, 2, 3]
+    })
+    const first = array[Symbol.iterator]()
+    const second = array[Symbol.iterator]()
+
+    expect(first.next()).toEqual({value: 1, done: false})
+    expect(first.next()).toEqual({value: 2, done: false})
+    expect(second.next()).toEqual({value: 1, done: false})
+    expect([...array]).toEqual([1, 2, 3])
+    expect([...array]).toEqual([1, 2, 3])
+    expect(array.next()).toEqual({value: 1, done: false})
+    expect(array.next()).toEqual({value: 2, done: false})
+})
+
 test('array mutations do not mutate the caller-owned default array', async () => {
     const defaultItems = [1, 2]
     const array = new ObservableLocalStorageArray<number>({

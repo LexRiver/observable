@@ -326,12 +326,12 @@ export class ObservableLocalStorageArray<T> implements Observable{
     // }    
     protected iteratorIndex = 0;
     [Symbol.iterator]():IterableIterator<T> {
-        return this
+        return this.items[Symbol.iterator]()
     }
     public next():IteratorResult<T> {
         if(this.iteratorIndex<this.items.length){
-            return {value: this.items[this.iteratorIndex], done: false}
-        } 
+            return {value: this.items[this.iteratorIndex++], done: false}
+        }
         return {value:null, done:true}
     }
     //#endregion iterator

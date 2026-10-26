@@ -40,6 +40,26 @@ test('ObservableArray set', async () => {
 
 })
 
+test('ObservableArray iteration supports symbols and independent iterators', () => {
+    const x = new ObservableArray([1, 2, 3])
+    const first = x[Symbol.iterator]()
+    const second = x[Symbol.iterator]()
+
+    expect(first.next()).toEqual({value: 1, done: false})
+    expect(first.next()).toEqual({value: 2, done: false})
+    expect(second.next()).toEqual({value: 1, done: false})
+    expect([...x]).toEqual([1, 2, 3])
+    expect([...x]).toEqual([1, 2, 3])
+})
+
+test('ObservableArray next advances', () => {
+    const x = new ObservableArray([1, 2])
+
+    expect(x.next()).toEqual({value: 1, done: false})
+    expect(x.next()).toEqual({value: 2, done: false})
+    expect(x.next()).toEqual({value: null, done: true})
+})
+
 test('ObservableArray getting by index brackets', async() => {
     let countOfChanges = 0
     const x = new ObservableArray<number>([])

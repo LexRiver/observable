@@ -18,8 +18,8 @@ export class ObservableArray<T> implements IterableIterator<T>, Observable{
             this.items = initialArray
         }
         let proxySettings = {
-            get: (target: ObservableArray<T>, prop: string, receiver: any) => {
-                let propNumber = parseInt(prop)
+            get: (target: ObservableArray<T>, prop: PropertyKey, receiver: any) => {
+                const propNumber = typeof prop === 'string' ? parseInt(prop) : NaN
                 if(propNumber>=0){
                     return this.items[propNumber]
                 }
@@ -27,7 +27,7 @@ export class ObservableArray<T> implements IterableIterator<T>, Observable{
                 //console.log('proxy get', 'prop=', prop, typeof prop)
                 return result
             },
-            set: (target:ObservableArray<T>, prop:string, value:any, receiver:any) => {
+            set: (target:ObservableArray<T>, prop:PropertyKey, value:any, receiver:any) => {
                 //console.log('proxy set', 'target=', target, 'prop=', prop, typeof prop, 'value=', value, 'receiver=', receiver)
 
                 if(prop === 'items'){
@@ -36,13 +36,14 @@ export class ObservableArray<T> implements IterableIterator<T>, Observable{
                     return true
                 }
                 
-                let propNumber = parseInt(prop)
+                const propNumber = typeof prop === 'string' ? parseInt(prop) : NaN
                 if(propNumber>=0){
                     //console.log('proxy SET', 'prop=', prop, 'value=', value)
                     this.items[propNumber] = value
                     this.eventDispatcher.dispatch(this.eventOnChange, value)
+                    return true
                 }
-                return true
+                return Reflect.set(target, prop, value, receiver)
             }
         }
         return new Proxy(this, proxySettings)
@@ -357,12 +358,12 @@ export class ObservableArray<T> implements IterableIterator<T>, Observable{
     // }    
     protected iteratorIndex = 0;
     [Symbol.iterator]():IterableIterator<T> {
-        return this
+        return this.items[Symbol.iterator]()
     }
     public next():IteratorResult<T> {
         if(this.iteratorIndex<this.items.length){
-            return {value: this.items[this.iteratorIndex], done: false}
-        } 
+            return {value: this.items[this.iteratorIndex++], done: false}
+        }
         return {value:null, done:true}
     }
     //#endregion iterator
