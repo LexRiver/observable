@@ -34,7 +34,7 @@ export class ObservableLocalStorageArray<T> implements Observable{
             // e.key: "productDisplayType"
             // e.newValue: ""tiles""
             // e.oldValue: ""list""
-            if(e.key != this.p.localStorageKey) return
+            if(e.key !== this.p.localStorageKey && e.key !== null) return
 
             // const oldValue = this.currentValue
             this.assignCurrentValue(true)
@@ -369,16 +369,15 @@ export class ObservableLocalStorageArray<T> implements Observable{
         if(newItemsAsString === previousItemsAsString) return
 
         this.items = this.p.defaultValueIfNotInLocalStorage || []
-        // let stringValue = this.getValueFromLocalStorage()
         if(newItemsAsString){
             try {
                 this.items = JSON.parse(newItemsAsString)
-                if(triggerEventIfNew){
-                    this.eventDispatcher.dispatch(this.eventOnChange, this.items)
-                }
             } catch(x){
                 console.warn('unable to parse', newItemsAsString)
             }
+        }
+        if(triggerEventIfNew){
+            this.eventDispatcher.dispatch(this.eventOnChange, this.getAsCopy())
         }
 
     }

@@ -35,7 +35,7 @@ export class ObservableLocalStorageVariable<T> implements Observable{
             // e.key: "productDisplayType"
             // e.newValue: ""tiles""
             // e.oldValue: ""list""
-            if(e.key != this.p.localStorageKey) return
+            if(e.key !== this.p.localStorageKey && e.key !== null) return
 
             const oldValue = this.currentValue
             this.assignCurrentValue()
