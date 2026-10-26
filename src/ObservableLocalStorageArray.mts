@@ -342,9 +342,9 @@ export class ObservableLocalStorageArray<T> implements Observable{
         const valueToPut = JSON.stringify(items)
         const valueInLocalStorageAsString = window.localStorage.getItem(this.p.localStorageKey)
         if(valueToPut !== valueInLocalStorageAsString){
-            // const prevValue = this.currentValue
             window.localStorage.setItem(this.p.localStorageKey, valueToPut)  // event is not triggered for current window
-            this.assignCurrentValue(true)
+            this.items = items
+            this.eventDispatcher.dispatch(this.eventOnChange, this.getAsCopy())
         }
     }
 
