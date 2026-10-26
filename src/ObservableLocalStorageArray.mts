@@ -368,7 +368,7 @@ export class ObservableLocalStorageArray<T> implements Observable{
 
         if(newItemsAsString === previousItemsAsString) return
 
-        this.items = this.p.defaultValueIfNotInLocalStorage || []
+        this.items = this.p.defaultValueIfNotInLocalStorage?.slice() ?? []
         if(newItemsAsString){
             try {
                 this.items = JSON.parse(newItemsAsString)

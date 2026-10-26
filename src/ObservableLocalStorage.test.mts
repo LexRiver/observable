@@ -79,6 +79,20 @@ test.each(localArrayMutators)('$name emits its locally changed array', async ({m
     expect(JSON.parse(window.localStorage.getItem('items')!)).toEqual(array.toArray())
 })
 
+test('array mutations do not mutate the caller-owned default array', async () => {
+    const defaultItems = [1, 2]
+    const array = new ObservableLocalStorageArray<number>({
+        localStorageKey: 'items',
+        defaultValueIfNotInLocalStorage: defaultItems
+    })
+
+    array.push(3)
+    await array.waitForEvents()
+
+    expect(defaultItems).toEqual([1, 2])
+    expect(array.toArray()).toEqual([1, 2, 3])
+})
+
 test('array emits its default after its storage key is removed', async () => {
     window.localStorage.setItem('items', JSON.stringify([1, 2]))
     const array = new ObservableLocalStorageArray<number>({
